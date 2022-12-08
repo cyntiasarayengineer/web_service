@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using MyApplication;
+using System.Runtime.InteropServices;
+
+namespace HomeAluno.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class HomeAlunoController : ControllerBase
+    {
+        private readonly ILogger<HomeAlunoController> _logger;
+        public HomeAlunoController(ILogger<HomeAlunoController> logger)
+        {
+            _logger = logger;
+        }
+
+        // Leitura dos Dados
+        [HttpGet]
+        public String Get()
+        {
+            var aluno = new AlunoClass
+            {
+                Nome = "Nome do Aluno",
+                RU = "12345"
+            };
+            return JsonSerializer.Serialize(aluno);
+        }
+    }
+}
+
+namespace MyApplication
+{
+    public class AlunoClass
+    {
+        public String Nome { get; set; }
+        public String RU { get; set; }
+    }
+}
