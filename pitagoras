@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CalculoController : ControllerBase
+{
+    private readonly ILogger<CalculoController> _logger;
+    public CalculoController(ILogger<CalculoController> logger)
+    {
+        _logger = logger;
+    }
+
+    // Regra de Definição do Cálculo
+    [HttpPost]
+    public String Post(string ru) 
+    {
+        var a = Math.Pow(int.Parse(ru.ElementAt(ru.Length - 3).ToString()), 2);
+        var b = Math.Pow(int.Parse(ru.ElementAt(ru.Length - 2).ToString()), 2);
+        var c = Math.Pow(int.Parse(ru.ElementAt(ru.Length - 1).ToString()), 2);
+        var retorno = "Não é um triângulo (terno) pitagórico.";
+        if (c == (a + b))
+        {
+            retorno = "É um triângulo (terno) pitagórico.";
+        }
+        var options = new JsonSerializerOptions
+        {
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            WriteIndented = true
+        };
+        return JsonSerializer.Serialize(retorno, options);
+    }
+}
